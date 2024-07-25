@@ -1,14 +1,17 @@
 const express = require("express");
 const connectDB = require("./config/db");
 require("dotenv").config();
-const productsRouter = require("./routes/productsRoute");
-const errorHandler = require("./middlewares/error-handler");
+require("express-async-errors");
+const errorHandler = require("./middleware/error-handler");
+const mainRouter = require("./routes/main");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use("/api/v1/products", productsRouter);
+app.use(express.static("./public"));
+
+app.use("/api/v1", mainRouter);
 
 app.use(errorHandler);
 
