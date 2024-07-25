@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const { UnAuthorized, BadRequest } = require("../errors");
 
 const authMiddleware = async (req, res, next) => {
   const bearerToken = req.headers.authorization;
 
-  if (!bearerToken.startsWith("Bearer ")) {
-    throw new CustomAPIError("Please provide token", 400);
+  if (!bearerToken || !bearerToken.startsWith("Bearer ")) {
+    throw new BadRequest("Please provide token");
   }
 
   const userToken = bearerToken.split(" ")[1];
@@ -15,7 +15,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (error) {
-    throw new CustomAPIError("token verification failed", 400);
+    throw new UnAuthorized("token verification failed");
   }
 };
 

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const { CustomAPIError } = require("../errors");
 
 const dashboard = async (req, res) => {
   const { username } = req.user;
